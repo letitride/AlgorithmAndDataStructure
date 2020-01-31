@@ -29,6 +29,47 @@ int binary_search(int x, int *a, int left, int right)
     return NOT_FOUND;
 }
 
+//検索対象が重複する場合の最も左を返すパターン
+int binary_search_most_left(int x, int *a, int left, int right)
+{
+    int mid;
+    while( left <= right ){
+        mid = (left + right) / 2;
+        
+        //除外範囲の切り捨て
+        if( a[mid] < x ){
+            left = mid + 1;
+        }else{
+            right = mid;
+        }
+        
+        if( a[left] == x ){
+            return left;
+        }
+    }
+    return NOT_FOUND;
+}
+
+int binary_search_most_right(int x, int *a, int left, int right)
+{
+    int mid;
+    while( left <= right ){
+        mid = (left + right) / 2;
+        
+        //除外範囲の切り捨て
+        if( a[mid] > x ){
+            right = mid - 1;
+        }else{
+            left = mid;
+        }
+        
+        if( a[right] == x ){
+            return right;
+        }
+    }
+    return NOT_FOUND;
+}
+
 int main(void)
 {
     int i, r, array[N];
