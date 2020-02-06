@@ -45,7 +45,26 @@ void insert_tree(int num, tree_node *node){
   return;
 }
 
+tree_node* find_value(tree_node *node, int val){
+    if(node->value > val){
+        if( node->left == NULL ){
+            return NULL;
+        }
+        return find_value(node->left, val);
+    }
+    
+    if(node->value < val){
+        if( node->right == NULL ){
+            return NULL;
+        }
+        return find_value(node->right, val);
+    }
+    return node;
+}
+
 int main(void){
+  tree_node *node;
+
   insert_tree(5, tree_root);
   insert_tree(3, tree_root);
   insert_tree(1, tree_root);
@@ -57,6 +76,9 @@ int main(void){
   printf("root->left->left: %d \n", tree_root->left->left->value  );
   printf("root->left->right: %d \n", tree_root->left->right->value  );
   printf("root->right: %d \n", tree_root->right->value  );
+
+  node = find_value( tree_root, 4);
+  printf("find hit : %d \n", node->value);
 
   return EXIT_SUCCESS;
 }
