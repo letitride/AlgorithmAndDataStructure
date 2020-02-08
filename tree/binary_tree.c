@@ -134,23 +134,71 @@ int delete_tree(int val){
     return 1;
 }
 
+
+void print_tree(int depth, tree_node *node){
+    int i;
+    if( node == NULL ){
+        return;
+    }
+    print_tree(depth+1, node->left);
+    for( i=0;i<depth;i++ ){
+        printf("  ");
+    }
+    printf("%d\n", node->value);
+    print_tree(depth+1, node->right);
+}
+
+void free_tree(tree_node *node){
+    if(node == NULL){
+        return;
+    }
+    free_tree(node->left);
+    free_tree(node->right);
+    free(node);
+}
+
 int main(void){
-  tree_node *node;
-
-  insert_tree(10, tree_root);
-  insert_tree(9, tree_root);
-  insert_tree(7, tree_root);
-  insert_tree(4, tree_root);
-  insert_tree(8, tree_root);
-  insert_tree(1, tree_root);
-  insert_tree(2, tree_root);
-  insert_tree(5, tree_root);
-
-  printf("root->left->left: %d \n", tree_root->left->left->value  );
-  delete_tree( 7 );
-  printf("root->left->left: %d \n", tree_root->left->left->value  );
-  printf("root->left->left->right: %d \n", tree_root->left->left->right->value  );
-  printf("root->left->left->left: %d \n", tree_root->left->left->left->value  );
-
-  return EXIT_SUCCESS;
+  int i, action;
+  for(i=0;i<10;i++){
+      insert_tree( rand() % 99+1, tree_root );
+  }
+  for(;;){
+      print_tree( 0, tree_root );
+      printf( "実行する操作のタイプを入力してください:\n 1:追加 2:検索 3:削除 それ以外:終了" );
+      scanf("%d", &action);
+      switch(action){
+          case 1:
+          printf("1〜100の範囲で追加する数字を入力してください:");
+          scanf("%d", &i);
+          if(i<1 || i>100){
+              continue;
+          }
+          insert_tree(i, tree_root);
+          break;
+          
+          case 2:
+          printf("検索する数字を入力してください:");
+          scanf("%d", &i);
+          if(find_value(tree_root, i) != NULL){
+              printf("%dを発見しました\n", i);
+          }else{
+              printf("%dは見つかりませんでした\n", i);
+          }
+          break;
+          
+          case 3:
+          printf("削除する数字を入力してください:");
+          scanf("%d", &i);
+          if( delete_tree(i) == 1 ){
+              printf("%dを削除しました\n", i);
+          }else{
+              printf("%dは見つかりませんでした\n", i);
+          }
+          break;
+          
+          default:
+          free_tree(tree_root);
+          return EXIT_SUCCESS;
+      }
+  }
 }
