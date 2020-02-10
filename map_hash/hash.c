@@ -15,6 +15,20 @@ unsigned int MakeHash(char *str, unsigned int hashmax){
     return hash % hashmax;
 }
 
+unsigned int ReHash(HASHTABLE *hashtable, unsigned int firsthash){
+    unsigned int hashval, k;
+    
+    for(k=1;k<=hashtable->size/2;k++){
+        //再ハッシュ値は元の数にloop^2を足す
+        hashval = (firsthash+k*k) % hashtable->size;
+        //新しいハッシュがハッシュ表で衝突がなければ値を返す
+        if( hashtable->data[hashval] == NULL ){
+            return hashval;
+        }
+    }
+    return -1;
+}
+
 int main(void){
     //ハッシュサイズは大きい素数が良い
     printf("%d", MakeHash("abcd", 10007));
