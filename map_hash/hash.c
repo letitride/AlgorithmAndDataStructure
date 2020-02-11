@@ -55,6 +55,22 @@ void AddDataToMap(HASHTABLE *hashtable, WORDSET *newdata){
     hashtable->data[hashval] = newdata;
 }
 
+char *GetDataFromMap(HASHTABLE *hashtable, char *key){
+    unsigned int hashval, k;
+    WORDSET *word;
+    
+    hashval = MakeHash(key, hashtable->size);
+    for( k=0;k<=hashtable->size / 2;k++ ){
+        word = hashtable->data[ (hashval + k*k) % hashtable->size ];
+        if(word != NULL){
+            if( strcmp(key, word->english) == 0){
+                return word->japanese;
+            }
+        }
+    }
+    return NULL;
+}
+
 int main(void){
     unsigned int n;
     char key[64], *japanese;
