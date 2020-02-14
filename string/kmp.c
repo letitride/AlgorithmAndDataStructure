@@ -42,7 +42,6 @@ unsigned char *kmp_search(unsigned char *text, unsigned char *pattern)
     printf( "%c \n", pattern[i] );
 #endif
 
-    print()
     if( *text == pattern[i]){
         ++text;
         //パターン終端まで一致 (文字が一致すればカーソルを進める)
