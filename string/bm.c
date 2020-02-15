@@ -46,9 +46,11 @@ unsigned char *bm_search(unsigned char *text, unsigned char *pattern)
       --pattern_index;
     }
 
+    //減った分以上は増やさないと無限ループになる
     if(table[ text[text_index] ] > PATTERN_LENGTH-pattern_index){
       printf("match move %d \n", table[text[text_index]]);
       text_index += table[text[text_index]];
+    //推奨移動距離よりマッチした量が多い場合不一致した文字まで移動
     }else{
       text_index += PATTERN_LENGTH - pattern_index;
     }
